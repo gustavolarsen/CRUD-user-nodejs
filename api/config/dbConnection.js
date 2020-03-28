@@ -11,7 +11,7 @@ module.exports.connect = () => {
     mongoose.connect(url, options);
 
     mongoose.connection.on('error', (err) => {
-        console.log('Erro de conexão com banco de dados: ' + err);
+        console.log(`Erro de conexão com banco de dados: ${err}`);
     });
 
     mongoose.connection.on('connected', () => {
@@ -19,7 +19,7 @@ module.exports.connect = () => {
     });
 
     mongoose.connection.on('disconected', () => {
-        console.log('Aplicação desconectada do banco de dados: ' + err);
+        console.log(`Aplicação desconectada do banco de dados: ${err}`);
     });
 
 }
