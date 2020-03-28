@@ -7,36 +7,27 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+
     const { email, password } = req.body;
 
-    User.findOne({ email }, (err, data) => {
-        if (err) {
-            return res.send({ error: 'Erro ao autenticar o usuário. ' + err });
-        }
+    try {
+        const data = await User.findOne({ email }).select('+password');;
 
         //Se informou um email invalido.    
         if (!data) {
             return res.send({ error: 'Usuário ou senha inválidos.' });
         }
-
-        console.log(data);
-
         //valida senha informada com senha do banco de dados
-        bcrypt.compare(password, data.password, (err, same) => {
+        if (!await bcrypt.compare(password, data.password))
+            return res.send({ error: 'Usuário ou senha inválidos.' });
 
-            if (err) {
-                return res.send({ error: 'Erro ao autenticar o usuário. ' + err })
-            }
-            //se senha invalida
-            if (!same) {
-                return res.send({ error: 'Usuário ou senha inválidos 1.' });
-            }
+        data.password = undefined;
+        return res.send(data);
 
-            return res.send(data);
-        });
-    }).select('+password');
-
+    } catch (error) {
+        return res.send({ error: `Erro ao autenticar o usuário. ${error}` });
+    }
 });
 
 module.exports = router;

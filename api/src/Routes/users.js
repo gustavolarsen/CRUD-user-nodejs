@@ -5,42 +5,34 @@ const router = express.Router();
 
 const User = require('../models/User');
 
-router.get('/', (req, res) => {
-    User.find({}, (err, data) => {
-        if (err) {
-            return res.send({ error: 'Erro na consulta de usuários!' });
-        }
+router.get('/', async (req, res) => {
 
+    try {
+        const data = await User.find({});
         return res.send(data);
-    });
+    } catch (error) {
+        return res.send({ message: `Erro na consulta de usuários. ${error}` });
+    }
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.send({ error: 'Email e senha são valores obrigatórios.' });
+        return res.send({ message: 'Email e senha são valores obrigatórios.' });
     }
 
-    User.findOne({ email }, (err, data) => {
-        if (err) {
-            return res.send({ error: 'Erro ao consultar usuário.' });
-        }
+    try {
+        if (await User.findOne({ email }))
+            return res.send({ message: 'Usuário já consta na base dados.' });
 
-        if (data) {
-            return res.send({ error: 'Usuário já consta na base dados.' });
-        }
+        const data = await User.create({ email, password });
+        data.password = undefined;
+        return res.send(data);
 
-        User.create({ email, password }, (err, data) => {
-            if (err) {
-                return res.send({ error: 'Erro ao cadastrar o usuário.' });
-            }
-
-            data.password = undefined;
-            return res.send(data);
-        });
-    });
-
+    } catch (error) {
+        return res.send({ message: `Erro ao cadastrar o usuário. ${error}` });
+    }
 });
 
 module.exports = router;

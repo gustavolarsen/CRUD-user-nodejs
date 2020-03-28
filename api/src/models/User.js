@@ -25,18 +25,15 @@ const UserSchema = new Schema({
     },
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', async function (next) {
     let user = this;
 
     //A senha sera criptografada apenas se ela for modificada/recem criada
     if (!user.isModified('password'))
         return next();
 
-    bcrypt.hash(user.password, 10, (err, encrypeted) => {
-        user.password = encrypeted;
-        return next();
-    });
-
+    user.password = await bcrypt.hash(user.password, 10);
+    return next();
 });
 
 module.exports = mongoose.model('User', UserSchema);
