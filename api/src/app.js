@@ -1,15 +1,25 @@
 'use strict';
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+
+const dbConnection = require('../config/dbConnection');
 
 const indexRoute = require('./Routes/index');
 const usersRoute = require('./Routes/users');
 
-app.use('/', indexRoute),
-    app.use('/users', usersRoute);
+const port = process.env.PORT || '3000';
 
-app.listen('3000');
+dbConnection.connect();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use('/', indexRoute);
+app.use('/users', usersRoute);
+
+app.listen(port);
 
 module.exports = app;
 
