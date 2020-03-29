@@ -15,11 +15,11 @@ module.exports = {
 
             //Se informou um email invalido.    
             if (!data) {
-                return res.send({ error: 'Usuário ou senha inválidos.' });
+                return res.status(401).send({ error: 'Usuário ou senha inválidos.' });
             }
             //valida senha informada com senha do banco de dados
             if (!await bcrypt.compare(password, data.password))
-                return res.send({ error: 'Usuário ou senha inválidos.' });
+                return res.status(401).send({ error: 'Usuário ou senha inválidos.' });
 
             data.password = undefined;
             console.log(data.id);
@@ -27,7 +27,7 @@ module.exports = {
             return res.send({ data, token: await utils.createToken(data.id) });
 
         } catch (error) {
-            return res.send({ error: `Erro ao autenticar o usuário. ${error}` });
+            return res.status(500).send({ error: `Erro ao autenticar o usuário. ${error}` });
         }
     }
 }

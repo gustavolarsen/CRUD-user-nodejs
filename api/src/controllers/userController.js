@@ -9,9 +9,9 @@ module.exports = {
 
         try {
             const data = await User.find({});
-            return res.send(data);
+            return res.status(200).send(data);
         } catch (error) {
-            return res.send({ message: `Erro na consulta de usuários. ${error}` });
+            return res.status(500).send({ message: `Erro na consulta de usuários. ${error}` });
         }
     },
 
@@ -19,19 +19,19 @@ module.exports = {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.send({ message: 'Email e senha são valores obrigatórios.' });
+            return res.status(400).send({ message: 'Email e senha são valores obrigatórios.' });
         }
 
         try {
             if (await User.findOne({ email }))
-                return res.send({ message: 'Usuário já consta na base dados.' });
+                return res.status(400).send({ message: 'Usuário já consta na base dados.' });
 
             const data = await User.create({ email, password });
             data.password = undefined;
-            return res.send({ data, token: await utils.createToken(data.id) });
+            return res.status(201).send({ data, token: await utils.createToken(data.id) });
 
         } catch (error) {
-            return res.send({ message: `Erro ao cadastrar o usuário. ${error}` });
+            return res.status(500).send({ message: `Erro ao cadastrar o usuário. ${error}` });
         }
     },
 
