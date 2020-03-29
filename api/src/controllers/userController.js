@@ -42,7 +42,7 @@ module.exports = {
             if (await User.findOne({ email }))
                 return res.status(400).send({ message: 'Usuário já consta na base dados.' });
 
-            const data = await User.create({ email, password: await bcrypt.hash(password, 10) });
+            const data = await User.create({ email, password });
             data.password = undefined;
             return res.status(201).send({ data, token: await utils.createToken(data.id) });
 
@@ -71,7 +71,8 @@ module.exports = {
                 return res.status(400).send({ error: 'A senha antiga está incorreta.' });
             }
 
-            await User.updateOne({ _id: id }, { $set: { password: await bcrypt.hash(newPassword, 10) } });
+            data.password = newPassword;
+            await data.save();
             return res.status(200).send({ message: 'Usuário atualiazado com sucesso' });
 
         } catch (error) {
