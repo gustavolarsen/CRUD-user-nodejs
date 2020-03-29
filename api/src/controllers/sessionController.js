@@ -22,7 +22,6 @@ module.exports = {
                 return res.status(401).send({ error: 'Usuário ou senha inválidos.' });
 
             data.password = undefined;
-            console.log(data.id);
 
             return res.status(200).send({ data, token: await utils.createToken(data.id) });
 
