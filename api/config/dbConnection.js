@@ -1,10 +1,13 @@
+'use strict';
+
 const mongoose = require('mongoose');
+const config = require('./config');
 
 module.exports = {
 
     connect() {
 
-        const url = 'mongodb+srv://guslarsen:guslarsen2020@cluster0-zno9q.mongodb.net/desappegdb';
+        const url = config.connectionString;
         const options = {
             useNewUrlParser: true,
             useCreateIndex: true,

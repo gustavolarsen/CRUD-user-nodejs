@@ -24,7 +24,7 @@ module.exports = {
             data.password = undefined;
             console.log(data.id);
 
-            return res.send({ data, token: await utils.createToken(data.id) });
+            return res.status(200).send({ data, token: await utils.createToken(data.id) });
 
         } catch (error) {
             return res.status(500).send({ error: `Erro ao autenticar o usuário. ${error}` });
