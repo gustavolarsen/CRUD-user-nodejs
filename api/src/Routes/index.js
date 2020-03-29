@@ -1,11 +1,10 @@
 'use strict';
 
 const express = require('express');
-const router = express.Router();
+const routes = express.Router();
 
-router.get('/', (req, res) => {
-
+routes.get('/', (req, res) => {
     return res.send({ message: `Todo ok com as rotas` });
 });
 
-module.exports = router;
+module.exports = routes;

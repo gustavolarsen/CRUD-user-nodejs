@@ -6,9 +6,9 @@ const app = express();
 
 const dbConnection = require('../config/dbConnection');
 
-const indexRoute = require('./Routes/index');
-const usersRoute = require('./Routes/users');
-const usersAuth = require('./Routes/auth');
+const indexRoute = require('./routes/index');
+const usersRoute = require('./routes/users');
+const sessionsRoute = require('./routes/sessions');
 
 const port = process.env.PORT || '3000';
 
@@ -19,9 +19,9 @@ dbConnection.connect();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/', indexRoute);
-app.use('/users', usersRoute);
-app.use('/auth', usersAuth);
+app.use(indexRoute);
+app.use(usersRoute);
+app.use(sessionsRoute);
 
 app.listen(port);
 
