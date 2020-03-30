@@ -1,10 +1,10 @@
 # CRUD-user-nodejs
 
-API básica de cadastro de usuário com as funções GET, POST, PUT e DELETE, com conexão ao bando de dados MongoDB
+API básica de cadastro de usuário com as funções GET, POST, PUT e DELETE, com conexão ao banco de dados MongoDB
 
 Esta API foi contruída para fins de arpendizado do curso básico de NojeJS.
 
-Através deste projeto foi possível por em pratica alguns conceitos de NojeJS para construção de uma API, como:
+Através deste projeto foi possível por em pratica alguns conceitos como:
 - utilização do express
 - conexação com bando de dados mongodb
 - modelagem utilizando mongoose
