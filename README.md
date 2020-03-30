@@ -7,7 +7,7 @@ Esta API foi contruída para fins de arpendizado do curso básico de NojeJS.
 Através deste projeto foi possível por em pratica alguns conceitos como:
 - utilização do express
 - conexação com bando de dados mongodb
-- modelagem utilizando mongoose
+- modelagem utilizando mongoose.Schema
 - criação de endpoints
 - rotas
 - criptografia com bcrypt
